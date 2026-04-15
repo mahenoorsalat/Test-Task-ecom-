@@ -12,6 +12,8 @@ app.use(cors());
 
 app.use(express.json());
 
+app.use('/api', router);
+
 const PORT = process.env.PORT || 5000;
 
 const connectDB = async () => {
@@ -20,7 +22,7 @@ const connectDB = async () => {
     console.log(`App is connected to the database.`);
   } catch (error) {
     console.error(`Error connecting to DB: ${error.message}`);
-    process.exit(1);
+    // process.exit(1);
   }
 };
 
