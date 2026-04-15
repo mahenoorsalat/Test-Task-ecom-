@@ -50,7 +50,7 @@ const mockProducts = [
 ];
 
 const ShopBy = ({ filter, title }) => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(mockProducts); // Start with mock data
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -62,14 +62,17 @@ const ShopBy = ({ filter, title }) => {
           `${import.meta.env.VITE_BASE_URL}/api/filter/${filter}`
         );
         if (isMounted) {
-          // If API returns an empty array, we'll use our mock data for the demo
-          setProducts(res.data.length > 0 ? res.data : mockProducts);
+          if (res.data && Array.isArray(res.data) && res.data.length > 0) {
+            setProducts(res.data);
+          } else {
+            console.log(`No data for ${filter}, sticking with mock data`);
+            setProducts(mockProducts);
+          }
           setLoading(false);
         }
       } catch (err) {
         if (isMounted) {
-          console.error(`Error while fetching products: ${err.message}`);
-          // Fallback to mock data on error as well for the demonstration
+          console.error(`Error while fetching products for ${filter}: ${err.message}`);
           setProducts(mockProducts);
           setError(err);
           setLoading(false);
@@ -84,27 +87,24 @@ const ShopBy = ({ filter, title }) => {
 
   return (
     <>
-      <div className="mt-10 mb-2 text-2xl">{title}</div>
-      <div className="overflow-x-auto overflow-y-hidden md:max-w-full scroll-container mb-10 mx-auto relative scroll-container">
-        {loading && <p>Loading...</p>}
-        {/* We hide the error for the recording to show the mock data smoothly */}
-        {/* {error && <p className="text-red-400">Error while fetching: {error.message} (Using Demo Data)</p>} */}
-
+      <div className="mt-10 mb-2 text-2xl font-semibold capitalize">{title}</div>
+      <div className="overflow-x-auto overflow-y-hidden md:max-w-full scroll-container mb-10 mx-auto relative">
         <div className="flex flex-nowrap space-x-4">
-          {/* Ensure products is always an array */}
-          {(Array.isArray(products) ? products : []).map((elem) => (
+          {products.map((elem) => (
             <HorSlider
               product={elem}
-              key={elem._id || elem.id} // fallback if _id is missing
+              key={elem._id || elem.id}
               className="inline-block"
               home={true}
             />
           ))}
         </div>
+        {loading && products.length === 0 && <p className="p-4">Loading products...</p>}
       </div>
     </>
   );
 };
+
 
 export default ShopBy;
 
