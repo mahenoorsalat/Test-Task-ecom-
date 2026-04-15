@@ -46,8 +46,53 @@ const mockProducts = [
     brand: "Puma",
     category: "men",
     rating: 4.0
+  },
+  {
+    _id: "mock5",
+    img: "/GenInfo/adidas.jpg",
+    title: "Adidas AlphaBounce",
+    sellPrice: 9999,
+    mrp: 11999,
+    discount: 16,
+    brand: "Adidas",
+    category: "men",
+    rating: 4.3
+  },
+  {
+    _id: "mock6",
+    img: "/GenInfo/nike.png",
+    title: "Nike ZoomX Invincible",
+    sellPrice: 17999,
+    mrp: 19999,
+    discount: 10,
+    brand: "Nike",
+    category: "women",
+    rating: 4.8
+  },
+  {
+    _id: "mock7",
+    img: "/GenInfo/skechers.jpg",
+    title: "Skechers D'Lites",
+    sellPrice: 5499,
+    mrp: 6499,
+    discount: 15,
+    brand: "Skechers",
+    category: "child",
+    rating: 4.1
+  },
+  {
+    _id: "mock8",
+    img: "/GenInfo/puma.jpg",
+    title: "Puma Cali Dream",
+    sellPrice: 7999,
+    mrp: 8999,
+    discount: 11,
+    brand: "Puma",
+    category: "women",
+    rating: 4.4
   }
 ];
+
 
 const ShopBy = ({ filter, title }) => {
   const [products, setProducts] = useState(mockProducts); // Start with mock data
