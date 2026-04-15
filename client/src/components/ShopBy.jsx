@@ -132,23 +132,30 @@ const ShopBy = ({ filter, title }) => {
 
   return (
     <>
-      <div className="mt-10 mb-2 text-2xl font-semibold capitalize">{title}</div>
-      <div className="overflow-x-auto overflow-y-hidden md:max-w-full scroll-container mb-10 mx-auto relative">
-        <div className="flex flex-nowrap space-x-4">
+      <div className="mt-16 mb-8 text-3xl font-bold text-center border-b-2 border-black w-fit mx-auto pb-2 capitalize">
+        {title}
+      </div>
+      <div className="w-full max-w-screen-xl mx-auto px-4">
+        <div className="flex flex-wrap justify-center gap-6">
           {products.map((elem) => (
-            <HorSlider
-              product={elem}
-              key={elem._id || elem.id}
-              className="inline-block"
-              home={true}
-            />
+            <div key={elem._id || elem.id} className="transform transition-transform duration-300 hover:scale-105">
+              <HorSlider
+                product={elem}
+                home={true}
+              />
+            </div>
           ))}
         </div>
-        {loading && products.length === 0 && <p className="p-4">Loading products...</p>}
+        {loading && products.length === 0 && (
+          <div className="text-center py-20">
+            <p className="text-gray-500 animate-pulse text-xl">Loading premium collection...</p>
+          </div>
+        )}
       </div>
     </>
   );
 };
+
 
 
 export default ShopBy;

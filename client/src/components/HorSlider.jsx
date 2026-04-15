@@ -12,61 +12,60 @@ const HorSlider = ({ product, home }) => {
 
     return (
         // Link to the product details page
-        <div>
-            <div className="xs:m-2 xs:text-xs md:text-sm xs:w-[180px] xs:h-[250px] md:w-[250px] md:h-[300px] flex justify-between flex-col border-1 hover:border-black p-2 relative">
-                {/* Wishlist button and Best Seller badge */}
-                <div>
-                    {/* Button to toggle wishlist status */}
+        <div className="bg-white rounded-xl shadow-md hover:shadow-2xl border border-gray-100 transition-all duration-300 w-[280px] h-[400px] overflow-hidden group">
+            <div className="p-4 flex flex-col h-full relative">
+                {/* Wishlist button */}
+                <div className="absolute left-4 top-4 z-20">
                     <button
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.preventDefault();
                             toggleItemWishList(product._id);
                         }}
-                        className="z-10 w-4 h-4 absolute left-1 top-0"
+                        className="p-1 bg-white/80 backdrop-blur-sm rounded-full shadow-sm hover:scale-120 transition-transform"
                     >
-                        {
-                            list.includes(product._id) ? "❤️" : "🤍" // Display heart icon based on wishlist status
-                        }
+                        {list.includes(product._id) ? "❤️" : "🤍"}
                     </button>
-                    {/* Best Seller Badge */}
-                    {rating > 3.9 && !home && (
-                        <span className="absolute top-0 right-0 bg-red-500 text-white text-xs md:text-sm px-1 rounded-sm">
-                            Best Seller
-                        </span>
-                    )}
                 </div>
 
-                {/* Product image */}
-                <div className="xs:h-2/3 sm:h-1/2 md:h-2/3 md:w-5/6 xs:text-sm md:text-base flex items-center ">
-                    <Link to={`/product-details/${product._id}`}>
-                        <img src={img} alt={title} />
+                {/* Best Seller Badge */}
+                {rating > 3.9 && (
+                    <div className="absolute top-4 right-0 bg-black text-white text-[10px] uppercase tracking-widest px-3 py-1 font-bold rounded-l-lg z-20">
+                        Top Rated
+                    </div>
+                )}
+
+                {/* Product image container */}
+                <div className="h-1/2 w-full flex items-center justify-center p-2 mb-4 overflow-hidden">
+                    <Link to={`/product-details/${product._id}`} className="w-full h-full flex items-center justify-center">
+                        <img 
+                            src={img} 
+                            alt={title} 
+                            className="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-500" 
+                        />
                     </Link>
                 </div>
 
-                {/* Product title */}
-                <p>{title}</p>
+                {/* Product Info */}
+                <div className="flex flex-col flex-grow">
+                    <p className="text-gray-400 text-xs uppercase tracking-tighter mb-1">{brand}</p>
+                    <p className="font-bold text-gray-800 text-sm line-clamp-1 mb-2 group-hover:text-blue-600 transition-colors uppercase">{title}</p>
+                    
+                    <div className="flex items-center gap-1 mb-3">
+                        <div className="flex text-yellow-400 text-xs">
+                           {"★".repeat(Math.floor(rating))}
+                           {"☆".repeat(5 - Math.floor(rating))}
+                        </div>
+                        <span className="text-[10px] text-gray-400">({rating})</span>
+                    </div>
 
-                {/* Product category and brand */}
-                <div className="flex items-center justify-between text-gray-400 xs:text-sm">
-                    <p>
-                        {category === "child"
-                            ? `Kids`
-                            : category === "men"
-                                ? `Men's`
-                                : category === "women"
-                                    ? `Women's`
-                                    : "Unisex"}{" "}
-                        Shoes
-                    </p>
-                    <p>{brand}</p>
-                </div>
-
-                {/* Product price, MRP, and discount */}
-                <div className=" h-1/6 flex justify-start items-center xs:gap-1 md:gap-2 pb-2 xs:text-xs ">
-                    <p className="font-extrabold xs:text-base md:text-lg">
-                        {`\u20B9 ${new Intl.NumberFormat("en-IN").format(sellPrice)}`}
-                    </p>
-                    <p className="line-through text-gray-400 md:text-xs">{mrp}</p>
-                    <p className="text-red-500 md:text-sm">{discount}% off</p>
+                    {/* Price Section */}
+                    <div className="mt-auto pt-2 border-t border-gray-50 flex items-baseline gap-2">
+                        <p className="font-black text-xl text-black">
+                            {`\u20B9 ${new Intl.NumberFormat("en-IN").format(sellPrice)}`}
+                        </p>
+                        <p className="line-through text-gray-400 text-xs">{mrp}</p>
+                        <p className="text-green-600 text-[10px] font-bold">{discount}% OFF</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -74,3 +73,4 @@ const HorSlider = ({ product, home }) => {
 };
 
 export default HorSlider;
+
